@@ -38,8 +38,22 @@ const token = user.createJWT()
 
 //update user profile
 const updateUser = async (req, res) =>{
-    console.log(req.user);//from jwt
-    console.log(req.body);
-}
+    //check what's being sent
+    // console.log(req.user);//from jwt
+    // console.log(req.body);
+    const {email,name,lastName,location} = req.body;
+    if(!email || !name || !location || !lastName){
+        throw new BadRequestError('Please provide all values')
+    }
+    //get user from db
+    const user = await User.find({_id: req.user.userId });
+    user.email = email,
+    user.location = location,
+    user.lastName = lastName,
+    user.name = name,
 
+    await user.save();
+    const token = user.createJWT()
+    
+};
 module.exports = { register,login,updateUser, }
