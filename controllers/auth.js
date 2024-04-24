@@ -23,7 +23,7 @@ const user = await User.findOne({ email })
 if(!user){
     throw new UnauthenticatedError('Invalid Credentials')
 }
-//omly if there's a user
+//only if there's a user
 const isPasswordCorrect = await user.comparePassword(password)
 if(!isPasswordCorrect){
     throw new UnauthenticatedError('Invalid credentials')
@@ -36,4 +36,10 @@ const token = user.createJWT()
 
 }
 
-module.exports = { register,login }
+//update user profile
+const updateUser = async (req, res) =>{
+    console.log(req.user);//from jwt
+    console.log(req.body);
+}
+
+module.exports = { register,login,updateUser, }
