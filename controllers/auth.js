@@ -43,17 +43,30 @@ const updateUser = async (req, res) =>{
     // console.log(req.body);
     const {email,name,lastName,location} = req.body;
     if(!email || !name || !location || !lastName){
-        throw new BadRequestError('Please provide all values')
+        throw new BadRequest('Please provide all values')
     }
     //get user from db
-    const user = await User.find({_id: req.user.userId });
-    user.email = email,
-    user.location = location,
-    user.lastName = lastName,
-    user.name = name,
+    const user = await User.findOne({_id: req.user.userId });
+    //change the value to update
+    user.email = email;
+    user.name = name;
+    user.location = location;
+    user.lastName = lastName;
+ 
 
     await user.save();
+
     const token = user.createJWT()
+
+    res.status(StatusCodes.OK).json({
+        user: {
+            email: user.email,
+            name: user.name,
+            lastName: user.lastName,
+            location: user.location,
+            token,
+        },
+    });
     
 };
 module.exports = { register,login,updateUser, }
