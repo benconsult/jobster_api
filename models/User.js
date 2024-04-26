@@ -42,7 +42,8 @@ const UserSchema = new mongoose.Schema({
 })
 //middleware
 UserSchema.pre('save', async function(){
-    //prevent password modification
+    // console.log(this.modifiedPaths());//check what is modified - name
+    //Not modifying the password 
     if(!this.isModified('password')) return;
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password,salt)
