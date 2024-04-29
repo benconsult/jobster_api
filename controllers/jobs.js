@@ -13,6 +13,14 @@ const getAllJobs = async (req, res) =>{
     if(search){
        queryObject.position = {$regex:search, $options:'i'}
     }
+    //for status
+    if(status && status !== 'all'){
+        queryObject.status = status
+    }
+    //for job type - default will be all
+    if(jobType && jobType !== 'all'){
+        queryObject.status = status
+    }
     //since we are going to chain, we remove await 
     let result = Job.find(queryObject);
 
