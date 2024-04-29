@@ -19,11 +19,24 @@ const getAllJobs = async (req, res) =>{
     }
     //for job type - default will be all
     if(jobType && jobType !== 'all'){
-        queryObject.status = status
+        queryObject.jobType = jobType
     }
     //since we are going to chain, we remove await 
     let result = Job.find(queryObject);
-
+    //sort result by latest, oldest,a-z
+    if(sort === 'latest'){
+        result = result.sort('-createdAt')
+    }
+    if(sort === 'oldest'){
+        result = result.sort('createdAt')
+    }
+    if(sort === 'a-z'){
+        result = result.sort('position')
+    }
+    if(sort === 'z-a'){
+        result = result.sort('position')
+    }
+    
     const jobs = await result
     res.status(StatusCodes.OK).json({jobs})
 }
