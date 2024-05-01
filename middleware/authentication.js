@@ -14,7 +14,7 @@ const token = authHeader.split(' ')[1]
 try {
     const payload = jwt.verify(token, process.env.JWT_SECRET)
     //test user read-only
-    const testUser = payload.userId === '66292db43ca5cf30abe23b26';
+    const testUser = payload.userId === '6631d296d6e10e1da6cebd1c';
     //attach the user to the job routes
     req.user = { userId: payload.userID, testUser}
     next();
