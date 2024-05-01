@@ -13,9 +13,11 @@ const token = authHeader.split(' ')[1]
 
 try {
     const payload = jwt.verify(token, process.env.JWT_SECRET)
+    //test user read-only
+    const testUser = payload.userId === '66292db43ca5cf30abe23b26';
     //attach the user to the job routes
-    req.user = { userId: payload.userID, payload:payload.name}
-    next()
+    req.user = { userId: payload.userID, testUser}
+    next();
 } catch (error) {
     throw new Unauthenticated('Authentication Invalid')
 }

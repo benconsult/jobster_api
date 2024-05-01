@@ -42,7 +42,9 @@ const updateUser = async (req, res) =>{
     // console.log(req.user);//from jwt
     // console.log(req.body);
     const {email,name,lastName,location} = req.body;
+    console.log(req.user); //test for read-only
     if(!email || !name || !location || !lastName){
+        
         throw new BadRequest('Please provide all values')
     }
     //get user from db
